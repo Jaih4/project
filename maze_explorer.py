@@ -34,7 +34,7 @@ class MazeExplorer:
             
             self.print_exit_and_path()
             await self.finalize_maze()
-            await self.display_scoreboard()
+            #await self.display_scoreboard()
             
         except Exception as e:
             print(f"Exploration error: {e}")
@@ -107,7 +107,6 @@ class MazeExplorer:
 
 
     def update_maze_data(self, vertex, vertex_type, adjacent):
-        print(vertex,vertex_type,adjacent)
         self.graph[vertex] = adjacent
         self.types[vertex] = vertex_type
         self.visited.append(vertex)
@@ -119,16 +118,16 @@ class MazeExplorer:
             self.exit_vertex = vertex
 
     def should_stop_exploration(self):
-        return self.path == []
+        #return self.path == []
+        return self.exit_vertex is not None
 
     def find_next_vertex(self, adjacent):
         return next((v for v in adjacent if v not in self.visited), None)
 
     def print_exit_and_path(self):
         print("caminho:", self.visited)
-        print(f"\nExit vertex found at: {self.exit_vertex}")
-        
-        if self.entry_vertex and self.exit_vertex:
+        print(f"\nSaida encontrada:: {self.exit_vertex}")
+        if self.entry_vertex is not None and self.exit_vertex is not None:
             shortest_path = bidirectional_search(self.graph, self.entry_vertex, self.exit_vertex)
             if shortest_path:
                 print("Shortest path from entry to exit:")
@@ -140,9 +139,9 @@ class MazeExplorer:
             await asyncio.get_event_loop().run_in_executor(
                 None, submit_maze_solution, self.path
             )
-            print("Maze solution submitted successfully")
+            print("resposta aceita")
         except Exception as e:
-            print(f"Failed to submit maze solution: {e}")
+            print(f"Falha ao enviar resposta: {e}")
 
     async def display_scoreboard(self):
         try:

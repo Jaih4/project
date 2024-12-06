@@ -14,7 +14,7 @@ def submit_maze_solution(path):
         response.raise_for_status()
         return response.json()
     except requests.exceptions.RequestException as e:
-        print(f"Error submitting maze solution: {e}")
+        print(f"Error no envio da resposta: {e}")
         raise
 
 def get_scoreboard():
